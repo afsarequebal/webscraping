@@ -1,6 +1,7 @@
 '''
 Prbolem Statment:
 
+Scrape the text from the last 1000 tweets with the hashtag $ETH.X (Ethereum) posted on Stocktwits:
 
 '''
 import requests
@@ -10,13 +11,15 @@ import pandas as pd
 response = []
 count = 0
 maxVal = ''
-#url = 'https://www.wsj.com/articles/crypto-hedge-fund-three-arrows-defaulted-on-loan-says-broker-voyager-digital-11656336534?page=1'
-#r = requests.get(url,headers={"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"})
-#jsonData = json.loads(r.text)
 
 while count != 1000:
+    #Create URL to retrieve JSON/XML
     url = 'https://api.stocktwits.com/api/2/streams/symbol/ETH.X.json?filter=top&limit=20&max=+'+str(maxVal)
+
+    #DO an API call
     r = requests.get(url)
+
+    #parse the response
     jsonData = json.loads(r.text)
     msgArray = jsonData['messages']
     maxVal = jsonData['cursor']['max']
